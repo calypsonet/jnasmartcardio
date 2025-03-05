@@ -1,3 +1,7 @@
+jnasmartcardio-0.3.0 (2025-03-05)
+===
+* Add `Smartcardio.withUnpowerOnDisconnect()` to handle B Prime card with ParagonId readers.
+
 jnasmartcardio-0.2.7 (2015-12-05)
 ===
 * [#31](https://github.com/jnasmartcardio/jnasmartcardio/pull/31) Depend on JNA 4.0.0 explicitly since the dependency range [3.2.5, 4.0.0] stopped working. The user can override JNA to anything between 3.2.5 and the latest 4.3.0.
