@@ -955,7 +955,7 @@ public class Smartcardio extends Provider {
 	 * from libj2pcsc on OS X java7.
 	 * @param  
 	 */
-	private static List<String> 	pcsc_multi2jstring(byte[] multiString, Charset charset) {
+	private static List<String> pcsc_multi2jstring(byte[] multiString, Charset charset) {
 		List<String> r = new ArrayList<String>();
 		int from = 0, to = 0;
 		for (; to < multiString.length; to++) {
