@@ -1,6 +1,6 @@
 jnasmartcardio-0.3.0 (2025-03-05)
 ===
-* Add `Smartcardio.withUnpowerOnDisconnect()` to handle B Prime card with ParagonId readers.
+* Added `disconnect(int disposition)` to `JnaCard`, allowing external calls to specify the disconnection mode.
 
 jnasmartcardio-0.2.7 (2015-12-05)
 ===

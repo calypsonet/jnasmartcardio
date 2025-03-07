@@ -38,37 +38,10 @@ public class Smartcardio extends Provider {
 	static final int MAX_ATR_SIZE = 33;
 
 	public static final String PROVIDER_NAME = "JNA2PCSC";
-	private static boolean useUnpowerOnDisconnect;
 
 	public Smartcardio() {
 		super(PROVIDER_NAME, 0.2d, "JNA-to-PCSC Provider");
 		put("TerminalFactory.PC/SC", JnaTerminalFactorySpi.class.getName());
-	}
-
-	/**
-	 * Configures the smart card to be powered off during disconnection.
-	 *
-	 * <p>When this option is enabled, the {@link JnaCard#disconnect(boolean)} method will use
-	 * the SCARD_UNPOWER_CARD option instead of SCARD_RESET_CARD when disconnecting
-	 * with reset.
-	 *
-	 * <p>Powering off the card (SCARD_UNPOWER_CARD) causes a complete shutdown of the
-	 * card's power supply, which is more radical than a simple reset (SCARD_RESET_CARD).
-	 *
-	 * <p>It is advisable to use this option in certain cases where card presence detection is 
-	 * not handled correctly by the reader (particularly with Innovatron's B Prime contactless 
-	 * protocol requiring a APDU-based polling to check the card presence waiting for the removal).
-	 *
-	 * @return the current instance to allow method chaining
-	 * @since 0.3.0
-	 */
-	public Smartcardio withUnpowerOnDisconnect() {
-		useUnpowerOnDisconnect = true; // NOSONAR
-		return this;
-	}
-
-	static int getDisconnectModeForReset() {
-		return useUnpowerOnDisconnect ? JnaCard.SCARD_UNPOWER_CARD : JnaCard.SCARD_RESET_CARD;
 	}
 	
 	public static class JnaTerminalFactorySpi extends TerminalFactorySpi {
@@ -584,9 +557,23 @@ public class Smartcardio extends Provider {
 			// TODO: handle error SCARD_W_RESET_CARD esp. in Windows
 		}
 
-		@Override public void disconnect(boolean reset) throws CardException {
-			int dwDisposition = reset ? Smartcardio.getDisconnectModeForReset() : SCARD_LEAVE_CARD;
-			check("SCardDisconnect", libInfo.lib.SCardDisconnect(scardHandle, new Dword(dwDisposition)));
+		@Override
+		public void disconnect(boolean reset) throws CardException {
+			// Determine the disconnection mode based on the reset flag
+			int disposition = reset ? SCARD_RESET_CARD : SCARD_LEAVE_CARD;
+			disconnect(disposition);
+		}
+
+		/**
+		 * Disconnects the card with a specific disposition.
+		 * This method can be used directly for greater flexibility.
+		 *
+		 * @param disposition Type of disconnection (e.g., SCARD_UNPOWER_CARD, SCARD_RESET_CARD, SCARD_LEAVE_CARD)
+		 * @throws CardException in case of an error
+		 * @since 0.3.0
+		 */
+		public void disconnect(int disposition) throws CardException {
+			check("SCardDisconnect", libInfo.lib.SCardDisconnect(scardHandle, new Dword(disposition)));
 		}
 
 		@Override public ATR getATR() {return atr;}
