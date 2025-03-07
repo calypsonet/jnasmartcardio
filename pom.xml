@@ -3,7 +3,7 @@
 
 	<groupId>io.github.jnasmartcardio</groupId>
 	<artifactId>jnasmartcardio</artifactId>
-	<version>0.3.0-SNAPSHOT</version>
+	<version>0.3.0-CNA</version>
 	<packaging>jar</packaging>
 
 	<name>jnasmartcardio</name>

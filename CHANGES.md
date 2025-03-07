@@ -1,5 +1,6 @@
-jnasmartcardio-0.3.0 (2025-03-07)
+jnasmartcardio-0.3.0-CNA (2025-03-07)
 ===
+* CNA version based on `jnasmartcardio:0.2.8-SNAPSHOT` (commit https://github.com/jnasmartcardio/jnasmartcardio/commit/4b6b39dbc076f75b5283e1e440b75e2229b6d730)
 * Added `disconnect(int disposition)` to `JnaCard`, allowing external calls to specify the disconnection mode.
 
 jnasmartcardio-0.2.7 (2015-12-05)
