@@ -557,9 +557,23 @@ public class Smartcardio extends Provider {
 			// TODO: handle error SCARD_W_RESET_CARD esp. in Windows
 		}
 
-		@Override public void disconnect(boolean reset) throws CardException {
-			int dwDisposition = reset ? SCARD_RESET_CARD : SCARD_LEAVE_CARD;
-			check("SCardDisconnect", libInfo.lib.SCardDisconnect(scardHandle, new Dword(dwDisposition)));
+		@Override
+		public void disconnect(boolean reset) throws CardException {
+			// Determine the disconnection mode based on the reset flag
+			int disposition = reset ? SCARD_RESET_CARD : SCARD_LEAVE_CARD;
+			disconnect(disposition);
+		}
+
+		/**
+		 * Disconnects the card with a specific disposition.
+		 * This method can be used directly for greater flexibility.
+		 *
+		 * @param disposition Type of disconnection (e.g., SCARD_UNPOWER_CARD, SCARD_RESET_CARD, SCARD_LEAVE_CARD)
+		 * @throws CardException in case of an error
+		 * @since 0.3.0
+		 */
+		public void disconnect(int disposition) throws CardException {
+			check("SCardDisconnect", libInfo.lib.SCardDisconnect(scardHandle, new Dword(disposition)));
 		}
 
 		@Override public ATR getATR() {return atr;}
