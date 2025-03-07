@@ -1,4 +1,4 @@
-jnasmartcardio-0.3.0 (2025-03-05)
+jnasmartcardio-0.3.0 (2025-03-07)
 ===
 * Added `disconnect(int disposition)` to `JnaCard`, allowing external calls to specify the disconnection mode.
 
