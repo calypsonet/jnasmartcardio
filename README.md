@@ -97,6 +97,8 @@ after 5 seconds and `SCARD_W_RESET_CARD` returned. See [this post on MSDN](https
 
 [disconnect(boolean reset)](http://docs.oracle.com/javase/7/docs/jre/api/security/smartcardio/spec/javax/smartcardio/Card.html#disconnect%28boolean%29) did the opposite in Sun’s implementation, which suffered [bug 7047033](http://bugs.java.com/bugdatabase/view_bug.do?bug_id=7047033). Ivan Gerasim of Oracle [fixed their implementation](http://mail.openjdk.java.net/pipermail/security-dev/2014-May/010554.html) to match mine in JRE 7u80, 8u20, and 9, although [the old behavior can be obtained by -Djdk.smartcard.invertReset=true in JRE 8](http://mail.openjdk.java.net/pipermail/security-dev/2014-July/010725.html).
 
+`JnaCard` also provides `disconnect(int disposition)` to pass any disposition value (`SCARD_LEAVE_CARD`, `SCARD_RESET_CARD`, `SCARD_UNPOWER_CARD`, `SCARD_EJECT_CARD`) directly to `SCardDisconnect`.
+
 ### JnaCardChannel
 
 [transmit(CommandAPDU command)](http://docs.oracle.com/javase/7/docs/jre/api/security/smartcardio/spec/javax/smartcardio/CardChannel.html#transmit%28javax.smartcardio.CommandAPDU%29) currently has a response limit of 8192 bytes.

@@ -559,7 +559,18 @@ public class Smartcardio extends Provider {
 
 		@Override public void disconnect(boolean reset) throws CardException {
 			int dwDisposition = reset ? SCARD_RESET_CARD : SCARD_LEAVE_CARD;
-			check("SCardDisconnect", libInfo.lib.SCardDisconnect(scardHandle, new Dword(dwDisposition)));
+			disconnect(dwDisposition);
+		}
+
+		/**
+		 * Disconnects the card with a specific disposition.
+		 *
+		 * @param disposition one of {@link #SCARD_LEAVE_CARD}, {@link #SCARD_RESET_CARD},
+		 *                    {@link #SCARD_UNPOWER_CARD}, or {@link #SCARD_EJECT_CARD}
+		 * @throws CardException if the card operation failed
+		 */
+		public void disconnect(int disposition) throws CardException {
+			check("SCardDisconnect", libInfo.lib.SCardDisconnect(scardHandle, new Dword(disposition)));
 		}
 
 		@Override public ATR getATR() {return atr;}
